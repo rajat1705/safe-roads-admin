@@ -19,29 +19,37 @@ import {
 
 const incidents = [
   {
-    id: 1,
+    id: "c8d81e77-5c13-499e-b9c9-cf6f90fcd6da",
+    created_at: "2025-03-18T17:34:37.327766+00:00",
     type: "Pothole",
     description: "Large pothole on Main Road",
     city: "New Delhi",
     state: "Delhi",
     status: "pending",
+    issue_type: "hazard",
+    severity: "medium",
   },
   {
     id: 2,
-    created_at: "2025-03-18T14:22:10.123456+00:00",
+    created_at: "2025-03-17T14:22:10.123456+00:00",
     type: "Broken Signal",
     description: "Traffic light not working.",
     city: "Gurgaon",
     state: "Haryana",
     status: "approved",
+    issue_type: "signal",
+    severity: "high",
   },
   {
     id: 3,
+    created_at: "2025-03-16T09:11:05.654321+00:00",
     type: "Fallen Sign",
     description: "Stop sign knocked over.",
     city: "Noida",
     state: "UP",
     status: "rejected",
+    issue_type: "signage",
+    severity: "low",
   },
 ];
 
@@ -59,7 +67,7 @@ export default function IncidentTable() {
     .filter(
       (incident) =>
         incident.type.toLowerCase().includes(search.toLowerCase()) ||
-        incident.city.toLowerCase().includes(search.toLowerCase())
+        incident.city?.toLowerCase().includes(search.toLowerCase())
     )
     .filter((incident) =>
       filterStatus ? incident.status === filterStatus : true
@@ -87,23 +95,28 @@ export default function IncidentTable() {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>Created At</TableHead>
             <TableHead>Incident Type</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>City</TableHead>
             <TableHead>State</TableHead>
+            <TableHead>Issue Type</TableHead>
+            <TableHead>Severity</TableHead>
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filteredIncidents.map((incident) => (
             <TableRow key={incident.id}>
+              <TableCell>{new Date(incident.created_at).toLocaleString()}</TableCell>
               <TableCell>{incident.type}</TableCell>
               <TableCell>{incident.description}</TableCell>
-              <TableCell>{incident.city}</TableCell>
-              <TableCell>{incident.state}</TableCell>
+              <TableCell>{incident.city || "N/A"}</TableCell>
+              <TableCell>{incident.state || "N/A"}</TableCell>
+              <TableCell>{incident.issue_type}</TableCell>
+              <TableCell>{incident.severity}</TableCell>
               <TableCell>
-                <Badge
-                  className={`${statusColors[incident.status]} text-white`}>
+                <Badge className={`${statusColors[incident.status]} text-white`}>
                   {incident.status}
                 </Badge>
               </TableCell>
