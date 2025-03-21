@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
+import IncidentTable from "../IncidentTable/IncidentTable";
 
 export default function HomePage() {
   return (
     <>
-      <Button
-        label="Reports"
-        onClick={() => console.log("Reports button clicked")}
-      />
+      <IncidentTable/>
     </>
   );
 }
