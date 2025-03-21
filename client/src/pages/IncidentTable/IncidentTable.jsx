@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink } from "@/components/ui/pagination";
 
 const incidents = [
   {
@@ -62,6 +64,8 @@ const statusColors = {
 export default function IncidentTable() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2;
 
   const filteredIncidents = incidents
     .filter(
@@ -72,6 +76,12 @@ export default function IncidentTable() {
     .filter((incident) =>
       filterStatus ? incident.status === filterStatus : true
     );
+
+  const totalPages = Math.ceil(filteredIncidents.length / itemsPerPage);
+  const paginatedIncidents = filteredIncidents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="p-4">
@@ -106,7 +116,7 @@ export default function IncidentTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredIncidents.map((incident) => (
+          {paginatedIncidents.map((incident) => (
             <TableRow key={incident.id}>
               <TableCell>{new Date(incident.created_at).toLocaleString()}</TableCell>
               <TableCell>{incident.type}</TableCell>
@@ -124,6 +134,32 @@ export default function IncidentTable() {
           ))}
         </TableBody>
       </Table>
+      <Pagination className="mt-4">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                isActive={currentPage === i + 1}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }
