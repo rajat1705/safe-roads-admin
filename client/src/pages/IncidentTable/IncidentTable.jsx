@@ -28,6 +28,7 @@ const incidents = [
   },
   {
     id: 2,
+    created_at: "2025-03-18T14:22:10.123456+00:00",
     type: "Broken Signal",
     description: "Traffic light not working.",
     city: "Gurgaon",
