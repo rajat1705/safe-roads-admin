@@ -63,7 +63,7 @@ const statusColors = {
 
 export default function IncidentTable() {
   const [search, setSearch] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2;
 
@@ -73,9 +73,7 @@ export default function IncidentTable() {
         incident.type.toLowerCase().includes(search.toLowerCase()) ||
         incident.city?.toLowerCase().includes(search.toLowerCase())
     )
-    .filter((incident) =>
-      filterStatus ? incident.status === filterStatus : true
-    );
+    .filter((incident) => (filterStatus === "all" ? true : incident.status === filterStatus));
 
   const totalPages = Math.ceil(filteredIncidents.length / itemsPerPage);
   const paginatedIncidents = filteredIncidents.slice(
@@ -91,11 +89,12 @@ export default function IncidentTable() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Select onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by status" className="bg-white" />
+        <Select onValueChange={(value) => setFilterStatus(value)}>
+          <SelectTrigger className="w-[180px] bg-white text-black">
+            <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="all">All</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
