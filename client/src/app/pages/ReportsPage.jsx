@@ -28,6 +28,17 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { Icon } from "leaflet";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
+import iconUrl from "leaflet/dist/images/marker-icon.png";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+
+delete (Icon.Default.prototype)._getIconUrl;
+Icon.Default.mergeOptions({
+    iconRetinaUrl,
+    iconUrl,
+    shadowUrl,
+});
 
 const ReportsPage = () => {
   const navigate = useNavigate();
