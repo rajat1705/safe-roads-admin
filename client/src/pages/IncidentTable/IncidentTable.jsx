@@ -62,7 +62,9 @@ const statusColors = {
   resolved: "bg-blue-500"
 };
 
-export default function IncidentTable() {
+export default function IncidentTable(props) {
+  const { onOpenIncident } = props;
+
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,6 +83,11 @@ export default function IncidentTable() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  
+  const handleOpenIncident = (incident) => (e) => {
+    e.preventDefault();
+    onOpenIncident(incident);
+  }
 
   return (
     <div className="p-4">
@@ -114,6 +121,7 @@ export default function IncidentTable() {
             <TableHead>Issue Type</TableHead>
             <TableHead>Severity</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>View</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -130,6 +138,11 @@ export default function IncidentTable() {
                 <Badge className={`${statusColors[incident.status]} text-white`}>
                   {incident.status}
                 </Badge>
+              </TableCell>
+              <TableCell>
+                <Button type="button" variant="outline" onClick={handleOpenIncident(incident)}>
+                  View
+                </Button>
               </TableCell>
             </TableRow>
           ))}

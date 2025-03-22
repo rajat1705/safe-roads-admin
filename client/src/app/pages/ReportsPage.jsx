@@ -35,7 +35,6 @@ const ReportsPage = () => {
     lat: null,
     lon: null,
   });
-  const [locationError, setLocationError] = useState(null); 
   const [reports, setReports] = useState([]);
   const [selectedReport, setSelectedReport] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,28 +58,14 @@ const ReportsPage = () => {
             lat: position.coords.latitude,
             lon: position.coords.longitude,
           });
-          setLocationError(null); 
         },
-        (error) => {
-          console.error("Error getting location:", error);
-          let errorMessage = "An error occurred while retrieving your location.";
-
-          if (error.code === 1) {
-            errorMessage = "You have denied location access. Please enable location permissions for this site in your browser settings to use this feature.";
-          } else if (error.code === 2) {
-            errorMessage = "Location services are unavailable. Please ensure location services are enabled in your browser/device settings.";
-          } else if (error.code === 3) {
-            errorMessage = "Location request timed out. Please try again.";
-          }
-
-          setLocationError(errorMessage); 
-          setCurrentLocation({ lat: null, lon: null }); 
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        (error) => console.error("Error getting location:", error)
       );
-    } else {
-      setLocationError("Geolocation is not supported by this browser.");
     }
+  }, []);
+
+  useEffect(() => {
+    fetchReports();
   }, []);
 
   const fetchLocationName = async (lat, lng) => {
@@ -498,16 +483,14 @@ const ReportsPage = () => {
       </div>
 
       <div className="w-full h-full">
-        {locationError ? (
-          <p className="text-center text-gray-600">{locationError}</p>
-        ) : currentLocation.lat && currentLocation.lon ? (
+        {currentLocation.lat && currentLocation.lon ? (
           <MapContainer
             center={[currentLocation.lat, currentLocation.lon]}
             zoom={13}
             style={{ width: "100%", height: "100%" }}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution="© <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+              attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
             />
             {reports.map((report) => (
               <Marker
