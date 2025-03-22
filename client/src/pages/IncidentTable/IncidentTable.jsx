@@ -59,6 +59,7 @@ const statusColors = {
   pending: "bg-yellow-500",
   approved: "bg-green-500",
   rejected: "bg-red-500",
+  resolved: "bg-blue-500"
 };
 
 export default function IncidentTable() {
@@ -98,6 +99,7 @@ export default function IncidentTable() {
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="resolved">Resolved</SelectItem>
           </SelectContent>
         </Select>
       </div>
