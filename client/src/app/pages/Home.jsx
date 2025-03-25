@@ -23,7 +23,7 @@ const Home = () => {
 
     useEffect(() => {
         fetch(
-            "https://road-safety-backend-862776753006.asia-south1.run.app/api/config/fetch-states"
+            "https://road-safety-backend-862776753006.us-central1.run.app/api/config/fetch-states"
         )
             .then((res) => res.json())
             .then((data) => {
@@ -38,7 +38,7 @@ const Home = () => {
     useEffect(() => {
         if (filters.state) {
             fetch(
-                `https://road-safety-backend-862776753006.asia-south1.run.app/api/config/fetch-cities?state=${filters.state}`
+                `https://road-safety-backend-862776753006.us-central1.run.app/api/config/fetch-cities?state=${filters.state}`
             )
                 .then((res) => res.json())
                 .then((data) => {

@@ -57,7 +57,7 @@ const ReportsPage = () => {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
   const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState(false);
-  const [userRole, setUserRole] = useState("user"); // Default role is 'user'
+  const [userRole, setUserRole] = useState("user");
   const location = useLocation();
   const filters = location.state;
 
@@ -103,7 +103,7 @@ const ReportsPage = () => {
 
   const fetchReports = () => {
     fetch(
-      "https://road-safety-backend-862776753006.asia-south1.run.app/api/incidents/all"
+      "https://road-safety-backend-862776753006.us-central1.run.app/api/incidents/all"
     )
       .then((res) => res.json())
       .then((data) => {
@@ -139,7 +139,7 @@ const ReportsPage = () => {
     const updatedReport = pendingReports.find((report) => report.id === id);
 
     fetch(
-      `https://road-safety-backend-862776753006.asia-south1.run.app/api/incidents/${id}/status`,
+      `https://road-safety-backend-862776753006.us-central1.run.app/api/incidents/${id}/status`,
       {
         method: "PUT",
         headers: {
@@ -174,7 +174,7 @@ const ReportsPage = () => {
 
   const handleReject = (id) => {
     fetch(
-      `https://road-safety-backend-862776753006.asia-south1.run.app/api/incidents/${id}/status`,
+      `https://road-safety-backend-862776753006.us-central1.run.app/api/incidents/${id}/status`,
       {
         method: "PUT",
         headers: {
@@ -209,7 +209,7 @@ const ReportsPage = () => {
 
   const handleResolve = (id) => {
     fetch(
-      `https://road-safety-backend-862776753006.asia-south1.run.app/api/incidents/${id}/status`,
+      `https://road-safety-backend-862776753006.us-central1.run.app/api/incidents/${id}/status`,
       {
         method: "PUT",
         headers: {
